@@ -1,8 +1,8 @@
 import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faEye, faEyeSlash, faSpinner} from '@fortawesome/free-solid-svg-icons'
+import { faEye, faEyeSlash, faSpinner } from '@fortawesome/free-solid-svg-icons'
 
-export const UsersTable = ({users}) => {
+export const UsersTable = ({ users, selectUser, selectUserId }) => {
   return (
     <table className="table is-narrow">
       <thead>
@@ -21,11 +21,29 @@ export const UsersTable = ({users}) => {
             <td>{user.name}</td>
             <td>{user.email}</td>
             <td>
-              <button className="button">
-                <span className="icon">
-                  <FontAwesomeIcon icon={faEye} />
-                </span>
-              </button>
+              {selectUserId === user.id ? (
+                <button
+                  className="button is-link"
+                  onClick={() => {
+                    selectUser(0)
+                  }}
+                >
+                  <span className="icon">
+                    <FontAwesomeIcon icon={faEyeSlash} />
+                  </span>
+                </button>
+              ) : (
+                <button
+                  className="button"
+                  onClick={() => {
+                    selectUser(user.id)
+                  }}
+                >
+                  <span className="icon">
+                    <FontAwesomeIcon icon={faEye} />
+                  </span>
+                </button>
+              )}
             </td>
           </tr>
         ))}
