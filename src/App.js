@@ -9,16 +9,20 @@ class App extends Component {
   state = {
     users: [
       // {id: 1, name: 'Yura', email: 'yura@gmail.com'},
-      // {id: 2, name: 'Yura', email: 'yura@gmail.com'},
-      // {id: 3, name: 'Yura', email: 'yura@gmail.com'},
     ],
   };
 
-  componentDidMount() {
-    getUsers()
-      .then(users => {
-        this.setState({ users });
-      })
+  // componentDidMount() {
+  //   getUsers()
+  //     .then(users => {
+  //       this.setState({ users });
+  //     })
+  // }
+
+  async componentDidMount() {
+    const users = await getUsers();
+
+    this.setState({ users });
   }
 
   render () {
