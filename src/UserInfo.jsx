@@ -16,11 +16,33 @@ export class UserInfo extends Component {
   //     })
   // }
 
-  async componentDidMount() {
-    const user = await getUser(this.props.userId);
-    const todos = await getUserTodos(this.props.userId);
+  componentDidMount() {
+    this.loadData();
+  }
+
+  componentDidUpdate(preProps) {
+    if (preProps.userId !== this.props.userId) {
+      this.loadData();
+    }
+  }
+
+  // async loadData() {
+  //   const todosPromise = getUserTodos(this.props.userId);
+  //   const user = await getUser(this.props.userId);
+  //   const todos = await todosPromise;
+
+  //   this.setState({ user, todos });
+  // }
+
+  async loadData() {
+    const [user, todos] = await Promise.all([
+      getUser(this.props.userId),
+      getUserTodos(this.props.userId)
+    ]);
+
     this.setState({ user, todos });
   }
+
 
   render() {
     const {todos, user} = this.state;
@@ -44,11 +66,12 @@ export class UserInfo extends Component {
 
             <ul>
               {todos.map(todo => (
-                <li key="todo.id">
+                <li key={todo.id}>
                   <label className="checkbox">
                     <input
                       type="checkbox"
                       checked={todo.completed}
+                      readOnly
                     />
                     &nbsp;{todo.title}
                   </label>
